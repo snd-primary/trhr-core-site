@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header class="bg-white shadow-sm">
+      <div class="container mx-auto px-4 py-4">
+        <nav class="flex justify-between items-center">
+          <a href="/" class="text-xl font-bold">Tech Blog</a>
+          <div class="flex gap-6">
+            <a href="/" class="hover:text-blue-600">ホーム</a>
+            <a href="/blog" class="hover:text-blue-600">ブログ</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="bg-gray-100 mt-12">
+      <div class="container mx-auto px-4 py-8">
+        <p class="text-center text-gray-600">
+          © {new Date().getFullYear()} Tech Blog. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
