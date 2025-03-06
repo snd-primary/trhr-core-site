@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+// 公開されている全ての記事を取得し、公開日順にソート
+const allPosts = await getCollection("posts", ({ data }) => {
+  return data.status === "published";
+}).then((posts) =>
+  posts.sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+  ),
+);
+
+// 日付フォーマット用の関数
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+---
+
+<BaseLayout title="ブログ記事一覧 - データ確認用">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">ブログ記事一覧（データ確認用）</h1>
+
+    <!-- データの総数表示 -->
+    <p class="mb-4">読み込んだ記事の総数: {allPosts.length}</p>
+
+    <!-- すべての記事を簡易表示 -->
+    <div class="space-y-8">
+      {
+        allPosts.map((post) => (
+          <article class="border p-4 rounded-lg">
+            <h2 class="text-xl font-bold">{post.data.title}</h2>
+
+            <div class="mt-2 space-y-1 text-sm">
+              <p>
+                <strong>Slug:</strong> {post.slug}
+              </p>
+              <p>
+                <strong>説明:</strong> {post.data.description}
+              </p>
+              <p>
+                <strong>公開日:</strong> {formatDate(post.data.publishedAt)}
+              </p>
+              <p>
+                <strong>カテゴリ:</strong> {post.data.category}
+              </p>
+              <p>
+                <strong>タグ:</strong> {post.data.tags.join(", ")}
+              </p>
+              <p>
+                <strong>著者:</strong> {post.data.author}
+              </p>
+              <p>
+                <strong>ステータス:</strong> {post.data.status}
+              </p>
+              <p>
+                <strong>特集記事:</strong>{" "}
+                {post.data.isFeature ? "はい" : "いいえ"}
+              </p>
+            </div>
+
+            <div class="mt-4">
+              <a
+                href={`/blog/${post.slug}`}
+                class="text-blue-600 hover:underline"
+              >
+                記事を読む →
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    {
+      allPosts.length === 0 && (
+        <div class="bg-yellow-100 p-4 rounded-lg">
+          <p class="text-center text-yellow-800">
+            記事が見つかりません。src/content/posts/ ディレクトリに Markdown
+            ファイルを追加してください。
+          </p>
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>

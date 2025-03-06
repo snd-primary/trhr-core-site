@@ -4,9 +4,8 @@ description: Astro フレームワークの基本と利点について解説し�
 publishedAt: 2023-03-15
 category: Web 開発
 tags: ["astro", "javascript", "frontend"]
-featuredImage: "/images/astro-featured.jpg"
+featuredImage: "/src/assets/image2.png"
 author: John Doe
-
 ---
 
 # Astroではじめる最新 Web 開発

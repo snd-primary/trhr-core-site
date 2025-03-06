@@ -1,23 +1,18 @@
 // eslint.config.js
+import astroParser from "astro-eslint-parser";
 import eslint from "@eslint/js";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import astroPlugin from "eslint-plugin-astro";
 import prettierPlugin from "eslint-plugin-prettier";
+import typescriptPlugin from "@typescript-eslint/eslint-plugin";
+import typescriptParser from "@typescript-eslint/parser";
 
 export default [
   eslint.configs.recommended,
-
   {
     files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
-    // これらのパターンに一致するファイルは無視されます
-    ignores: [
-      "node_modules/**",
-      "dist/**",
-      ".astro/**",
-      ".vscode/**",
-      "public/**",
-    ],
+    ignores: ["node_modules/**", "dist/**", ".vscode/**", "public/**"],
     plugins: {
       react: reactPlugin,
       "react-hooks": reactHooksPlugin,
@@ -35,7 +30,7 @@ export default [
     rules: {
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
-      "prettier/prettier": "error",
+      "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
     settings: {
       react: {
@@ -43,16 +38,44 @@ export default [
       },
     },
   },
+  // TypeScript ファイル用の設定
   {
     files: ["**/*.ts", "**/*.tsx"],
+    plugins: {
+      "@typescript-eslint": typescriptPlugin,
+    },
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: "./tsconfig.json", // あなたのtsconfig.jsonのパス
+      },
+    },
+    rules: {
+      // TypeScript特有のルール
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+    },
   },
+  // Astroファイル用の設定
+  ...astroPlugin.configs.recommended,
   {
     files: ["**/*.astro"],
-    ...astroPlugin.configs.recommended,
-    parser: "astro-eslint-parser",
-    parserOptions: {
-      parser: "@typescript-eslint/parser",
-      extraFileExtensions: [".astro"],
+    plugins: {
+      astro: astroPlugin,
+    },
+    languageOptions: {
+      parser: astroParser,
+      parserOptions: {
+        parser: typescriptParser,
+        extraFileExtensions: [".astro"],
+        project: "./tsconfig.json", // あなたのtsconfig.jsonのパス
+      },
     },
   },
 ];

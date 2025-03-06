@@ -1,9 +1,4 @@
-
-# .eslintignoreと.prettierignore共通
-node_modules/
-dist/
-.astro/
-.vscode/
-public/
-
 *.md
+/node_modules/
+dist/
+/public/
