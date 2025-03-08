@@ -16,7 +16,7 @@ export const Header = () => {
         <div className="container mx-auto px-4 py-4">
           <nav className="flex justify-between items-center">
             <a href="/" className="text-xl font-bold">
-              Tech Blog
+              Tech
             </a>
 
             <ul className="hidden md:flex gap-4 items-center justify-center">
