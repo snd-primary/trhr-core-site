@@ -1,34 +1,31 @@
 ---
+import "../styles/global.css";
+import OpenGraph from "@/components/OpenGraph.astro";
+import { Header } from "../components/Header";
+
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <OpenGraph title={title} description={description} image={ogImage} />
+
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <header class="bg-white shadow-sm">
-      <div class="container mx-auto px-4 py-4">
-        <nav class="flex justify-between items-center">
-          <a href="/" class="text-xl font-bold">Tech Blog</a>
-          <div class="flex gap-6">
-            <a href="/" class="hover:text-blue-600">ホーム</a>
-            <a href="/blog" class="hover:text-blue-600">ブログ</a>
-          </div>
-        </nav>
-      </div>
-    </header>
-
+    <Header client:load />
     <slot />
 
     <footer class="bg-gray-100 mt-12">

@@ -7,6 +7,7 @@ import astroPlugin from "eslint-plugin-astro";
 import prettierPlugin from "eslint-plugin-prettier";
 import typescriptPlugin from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default [
   eslint.configs.recommended,
@@ -17,6 +18,7 @@ export default [
       react: reactPlugin,
       "react-hooks": reactHooksPlugin,
       prettier: prettierPlugin,
+      "unused-imports": unusedImports,
     },
     languageOptions: {
       ecmaVersion: "latest",
@@ -28,6 +30,7 @@ export default [
       },
     },
     rules: {
+      "unused-imports/no-unused-imports": "error",
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       "prettier/prettier": ["error", { endOfLine: "auto" }],

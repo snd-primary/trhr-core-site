@@ -1,7 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { Image } from "astro:assets";
 
 // 生成する全てのパスを取得
 export async function getStaticPaths() {
@@ -33,17 +32,11 @@ const formatDate = (date: Date) => {
 <BaseLayout title={post.data.title} description={post.data.description}>
   <main class="container mx-auto px-4 py-8">
     <article class="max-w-3xl mx-auto">
-      {
+      <!--       {
         post.data.featuredImage && (
-          /*           <img
-            src={post.data.featuredImage}
-            alt={post.data.title}
-            class="w-full h-64 object-cover rounded-lg"
-          /> */
-
           <Image src={post.data.featuredImage} alt={post.data.title} />
         )
-      }
+      } -->
 
       <div class="mt-6">
         <h1 class="text-4xl font-bold">{post.data.title}</h1>
