@@ -1,0 +1,46 @@
+<script is:inline>
+  //ユーザのシステムのカラーテーマ設定を確認
+  const lightModePref = window.matchMedia("(prefers-color-scheme: light)");
+
+  //ローカルストレージ上にテーマの設定がないか確認する。なければmatchMediaの結果を使う
+  function getUserPref() {
+    const storedTheme =
+      typeof localStorage !== "undefined" && localStorage.getItem("theme");
+    return storedTheme || (lightModePref.matches ? "light" : "_dark");
+  }
+
+  function setTheme(newTheme) {
+    if (newTheme !== "light" && newTheme !== "dark") {
+      return console.warn(
+        `Invalid theme value ${newTheme} received. Expected 'light' or 'dark'`,
+      );
+    }
+
+    // <html>要素
+    const root = document.documentElement;
+
+    //テーマが設定済みの場合はここで処理を終了
+    if (newTheme === root.getAttribute("data-theme")) {
+      return;
+    }
+
+    // data-theme属性にテーマ(light / dark)をセット
+    root.setAttribute("data-theme", newTheme);
+
+    // localStorageにテーマ情報が未設定の場合は、セットする
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("theme", newTheme);
+    }
+  }
+
+  //初期化
+  setTheme(getUserPref());
+
+  //ViewTransitions対応
+  document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
+
+  //prefers-color-schemeの変更をリッスン
+  lightModePref.addEventListener("change", (e) =>
+    setTheme(e.matches ? "light" : "dark"),
+  );
+</script>
