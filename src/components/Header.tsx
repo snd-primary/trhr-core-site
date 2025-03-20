@@ -2,6 +2,7 @@ import { mainMenuItems } from "@/data/menuItems";
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 import { useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 export const Header = () => {
   const [isShow, setIsShow] = useState<boolean>(false);
@@ -26,6 +27,8 @@ export const Header = () => {
                 </li>
               ))}
             </ul>
+
+            <ThemeToggle />
 
             {/* mobilemenu openbutton */}
             <button

@@ -23,6 +23,31 @@ const { title, description, ogImage } = Astro.props;
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script is:inline>
+      (function () {
+        function getInitialTheme() {
+          const storedTheme = localStorage.getItem("theme");
+
+          if (storedTheme) {
+            return storedTheme;
+          }
+          return window.matchMedia("(prefers-color-schema: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const theme = getInitialTheme();
+
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body class="bg-background text-foreground">
     <div

@@ -15,10 +15,10 @@ const latestPosts = await getCollection("posts", ({ data }) => {
 
 <BaseLayout title="Tech Blog - 最新の技術情報" ogImage=`src/assets/image2.png`>
   <main>
-    <section class="py-12 bg-gray-50">
+    <section class="py-12">
       <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold text-center">Tech Blog</h1>
-        <p class="text-xl text-center mt-4 text-gray-600">
+        <p class="text-xl text-center mt-4">
           最新の技術トレンドと実践的なチュートリアル
         </p>
       </div>
@@ -36,7 +36,7 @@ const latestPosts = await getCollection("posts", ({ data }) => {
                   <Image src={post.data.featuredImage} alt={post.data.title} />
                 )}
                 <div class="p-4">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm ">
                     {post.data.publishedAt.toLocaleDateString("ja-JP")} •{" "}
                     {post.data.category}
                   </p>
@@ -45,7 +45,7 @@ const latestPosts = await getCollection("posts", ({ data }) => {
                       {post.data.title}
                     </a>
                   </h3>
-                  <p class="mt-2 text-gray-700">{post.data.description}</p>
+                  <p class="mt-2 ">{post.data.description}</p>
                 </div>
               </article>
             ))
